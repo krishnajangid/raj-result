@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
+import json
 import logging
 
 from bs4 import BeautifulSoup
@@ -33,24 +34,49 @@ class ExtractorBase(object):
             logger.error(f"Error while Soup data {response_data}")
             return None
 
-        info_table = soup_data.find('table', {'style': 'border-collapse: collapse'}).text.strip().split('\n')
-
-        user_info = []
-        for user_data in info_table:
-            data = user_data.strip()
-            if data and (data not in UserEnum.UserList.value):
-                user_info.append(data)
-
-        user_dict = {
-            'reg_num': user_info[0],
-            'name': user_info[1],
-            'father_name': user_info[2],
-            'mother_name': user_info[3],
-            'school': user_info[4],
+        student_info_dict = self.__get_student_info(soup_data)
+        student_result_dict = self.__get_student_marks(soup_data)
+        student_data = {
+            'student_info': student_info_dict,
+            'result': student_result_dict
         }
-        print(user_dict)
+        print(json.dumps(student_data, indent=4))
 
+    @staticmethod
+    def __get_student_info(soup_data):
+        info_table = soup_data.find('table', {'style': 'border-collapse: collapse'}).text.strip().split('\n')
+        student_info_list = []
+        for student_data in info_table:
+            data = student_data.strip()
+            if data and (data not in UserEnum.UserList.value):
+                student_info_list.append(data)
 
-x = ExtractorBase()
-print(x.process())
+        student_info_dict = {
+            'reg_num': student_info_list[0],
+            'name': student_info_list[1],
+            'father_name': student_info_list[2],
+            'mother_name': student_info_list[3],
+            'school': student_info_list[4],
+        }
+        return student_info_dict
 
+    @staticmethod
+    def __get_student_marks(soup_data):
+        result_dict_list = []
+        info_table = soup_data.find_all('table', {'style': 'border-collapse: collapse'})[1]
+        for tr_info in info_table.find_all('tr')[1:7]:
+            result_list=[]
+            for td_info in tr_info.find_all('td'):
+                result_list.append(td_info.text.strip())
+            result_dict = {
+                'sub_name':result_list[0],
+                'theory':result_list[1],
+                'sessional':result_list[3],
+                'th_ss':result_list[4],
+                'practical':result_list[5],
+            }
+            result_dict_list.append(result_dict)
+        return result_dict_list
+
+extractor_base = ExtractorBase()
+extractor_base.process()
