@@ -1,2 +1,2 @@
-fastjsonschema
+bs4
 requests

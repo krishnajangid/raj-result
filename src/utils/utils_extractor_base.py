@@ -4,6 +4,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
+from utils_constant import UserEnum
 from utils_exception import JsonDecodeError, ResponseCodeException, ConnectionTimeOut
 from utils_request import MakeRequest
 
@@ -32,27 +33,24 @@ class ExtractorBase(object):
             logger.error(f"Error while Soup data {response_data}")
             return None
 
-        info_table = soup_data.find('table', {'style': 'border-collapse: collapse'}).text
-        user_data = info_table.strip().split('\n')
+        info_table = soup_data.find('table', {'style': 'border-collapse: collapse'}).text.strip().split('\n')
 
-        print(info_table.strip().split('\n'))
-        print(" ".join(info_table.split()))
-        print(type(info_table))
+        user_info = []
+        for user_data in info_table:
+            data = user_data.strip()
+            if data and (data not in UserEnum.UserList.value):
+                user_info.append(data)
 
-
+        user_dict = {
+            'reg_num': user_info[0],
+            'name': user_info[1],
+            'father_name': user_info[2],
+            'mother_name': user_info[3],
+            'school': user_info[4],
+        }
+        print(user_dict)
 
 
 x = ExtractorBase()
 print(x.process())
 
-
-'''
-
-
-r = requests.get('http://rajresults.nic.in/resbserx19.asp', data={'roll_no': 1429382, 'B1': 'Submit'}, headers={'Referer':'http://rajresults.nic.in/resbserx19.htm'})
-# print(r.text)
-data = BeautifulSoup(r.text, features="html5lib")
-table_list = data.find_all('table')
-print(table_list)
-
-'''
