@@ -65,18 +65,21 @@ class ExtractorBase(object):
         result_dict_list = []
         info_table = soup_data.find_all('table', {'style': 'border-collapse: collapse'})[1]
         for tr_info in info_table.find_all('tr')[1:7]:
-            result_list=[]
+            result_list = []
             for td_info in tr_info.find_all('td'):
                 result_list.append(td_info.text.strip())
             result_dict = {
-                'sub_name':result_list[0],
-                'theory':result_list[1],
-                'sessional':result_list[3],
-                'th_ss':result_list[4],
-                'practical':result_list[5],
+                'sub_name': result_list[0],
+                'theory': result_list[1],
+                'sessional': result_list[3],
+                'th_ss': result_list[4],
+                'practical': result_list[5],
             }
             result_dict_list.append(result_dict)
         return result_dict_list
 
+
 extractor_base = ExtractorBase()
-extractor_base.process()
+for reg_no in [1429382, 1429381, 1429383, 1429385]:
+    extractor_base.process(reg_no)
+    print("===="*20)
