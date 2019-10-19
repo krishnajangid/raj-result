@@ -1,14 +1,13 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
-import json
 import logging
 from typing import Dict
 
 import requests
 from requests.adapters import HTTPAdapter
-
-from utils_exception import (BaseUrlNotFound, ResponseCodeException, JsonDecodeError, ConnectionTimeOut)
 from urllib3 import Retry
+
+from utils_exception import (ResponseCodeException, ConnectionTimeOut)
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +24,7 @@ class MakeRequest(object):
 
         self.__header_dict = dict()
         self.__session = None
+        self.__post_data = None
 
     @property
     def session(self):
@@ -103,4 +103,3 @@ class MakeRequest(object):
     def get(self):
         response = self.session.get(self.base_url)
         return response
-
