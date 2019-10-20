@@ -25,12 +25,6 @@ CREATE TABLE school(
 --
 -- );
 
-CREATE TABLE year(
-  "id" SERIAL PRIMARY  KEY ,
-  "year" VARCHAR(50) NOT NULL
-);
-
-
 CREATE TABLE student(
   "id" SERIAL PRIMARY  KEY ,
   "school_id" INTEGER  NOT NULL,
@@ -41,6 +35,7 @@ CREATE TABLE student(
   "mother_name" VARCHAR(50) NOT NULL,
   "views" INTEGER  NOT NULL DEFAULT 0,
   "last_views" TIMESTAMP ,
+  "year" VARCHAR(10) NOT NULL,
   "created" TIMESTAMP  DEFAULT NOW(),
   "updated" TIMESTAMP  DEFAULT NOW(),
 
