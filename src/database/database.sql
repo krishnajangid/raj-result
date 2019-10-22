@@ -1,11 +1,39 @@
 BEGIN;
+--
+-- Create Table Users
+--
+CREATE TABLE "users" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "first_name" VARCHAR(100),
+    "last_name" VARCHAR(100),
+    "email" VARCHAR(200) NOT NULL UNIQUE,
+    "password" VARCHAR(250) NOT NULL,
+    "active" BOOLEAN DEFAULT  FALSE,
+    "confirmed_at" TIMESTAMP DEFAULT NOW()
+);
+--
+-- Create Table Role
+--
+CREATE TABLE "role" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "name" VARCHAR(200) NOT NULL UNIQUE
+);
 
--- Create tables
+--
+-- Create Table Roles user
+--
+CREATE TABLE "roles_users" (
+    "user_id" INTEGER NOT NULL,
+    "role_id" INTEGER NOT NULL,
+    CONSTRAINT "role_users_user_id_fkey" FOREIGN KEY  ("user_id") REFERENCES users("id"),
+    CONSTRAINT "role_users_role_id_fkey" FOREIGN KEY  ("role_id") REFERENCES role("id")
+);
+
 
 CREATE TABLE branch(
   "id" SERIAL PRIMARY  KEY ,
   "name" VARCHAR(50) NOT NULL,
-  "class" VARCHAR(20) NOT NULL,
+  "cls" VARCHAR(20) NOT NULL,
   "created" TIMESTAMP  DEFAULT NOW()
 
 );
@@ -35,7 +63,7 @@ CREATE TABLE student(
   "mother_name" VARCHAR(50) NOT NULL,
   "views" INTEGER  NOT NULL DEFAULT 0,
   "last_views" TIMESTAMP ,
-  "year" VARCHAR(10) NOT NULL,
+  "year" VARCHAR(5) NOT NULL,
   "created" TIMESTAMP  DEFAULT NOW(),
   "updated" TIMESTAMP  DEFAULT NOW(),
 
@@ -56,13 +84,18 @@ CREATE TABLE marks(
   "id" SERIAL PRIMARY  KEY ,
   "student_id" INTEGER  NOT NULL,
   "subject_id" INTEGER  NOT NULL,
-  "theory" INTEGER  NOT NULL,
-  "sessional" INTEGER  NOT NULL,
-  "th_ss" INTEGER  NOT NULL,
-  "practical" INTEGER  NOT NULL,
+  "theory" INTEGER,
+  "sessional" INTEGER,
+  "th_ss" INTEGER,
+  "practical" INTEGER,
 
   CONSTRAINT "marks_student_id_fkey" FOREIGN KEY ("student_id") REFERENCES student("id"),
   CONSTRAINT "marks_subject_id_fkey" FOREIGN KEY ("subject_id") REFERENCES subject("id")
 );
+
+INSERT INTO role (name) VALUES ('superuser');
+INSERT INTO users (email, password, active) VALUES ('admin', 'admin', true);
+
+INSERT INTO roles_users (user_id, role_id) VALUES (1, 1);
 
 COMMIT;

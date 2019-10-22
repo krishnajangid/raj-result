@@ -1,12 +1,20 @@
-from flask import Flask
+import sys
+from inspect import getframeinfo, currentframe
+from pathlib import Path
 
-app = Flask(__name__)
+filename = getframeinfo(currentframe()).filename
+current_module_path = Path(filename).resolve().parent
 
+ROOT_PATH = Path(current_module_path).parents[0].as_posix()
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+module_path_list = [f"{ROOT_PATH}/"]
+
+for index, path in enumerate(module_path_list):
+    sys.path.insert(index, path)
+
+from webapp import app, db
 
 
 if __name__ == '__main__':
+    db.init_app(app)
     app.run()
