@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 class RestResponse(object):
+
     @classmethod
-    def get(cls, status: str, result: (dict, None) = None, status_code: int = 200, message: str = '', _type: str = '',
-            **kwargs) -> Flask.make_response:
+    def get(cls, status, result=None, status_code=200, message='', _type='', **kwargs):
         """
         Create final request object
         """
@@ -24,6 +24,5 @@ class RestResponse(object):
             data['additional_data'] = kwargs
         if result is not None:
             data['data'] = result
-        logger.debug(json.dumps(data, indent=4))
         content = jsonify(data)
         return flask_app.make_response((content, status_code))

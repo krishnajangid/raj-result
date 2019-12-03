@@ -6,8 +6,11 @@ filename = getframeinfo(currentframe()).filename
 current_module_path = Path(filename).resolve().parent
 
 ROOT_PATH = Path(current_module_path).parents[0].as_posix()
-
-module_path_list = [f"{ROOT_PATH}/"]
+print(ROOT_PATH)
+module_path_list = [
+    f"{ROOT_PATH}/",
+    f"{ROOT_PATH}/utils",
+]
 
 for index, path in enumerate(module_path_list):
     sys.path.insert(index, path)

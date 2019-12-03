@@ -15,7 +15,7 @@
 
 <body>
 <nav class="navbar navbar-expand-sm fixed-top z-depth" style="background:#ffffff;">
-    <a class="navbar-brand" href="/" style="color: #337ab7;"><b>Raj Result Dashboard</b></a>
+    <a class="navbar-brand" href="/" style="color: #337ab7;"><b>Raj Result</b></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_content"
             aria-controls="nav_content" aria-expanded="false" aria-label="Toggle navigation">
             <span class="fa fa-bars"></span>
@@ -38,7 +38,11 @@
                     {%- endif %}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    {% if current_user.has_role('admin') or current_user.has_role('superuser') %}
                     <a class="dropdown-item" href="/admin" target="_blank">Admin</a>
+                    {% else %}
+                    <a class="dropdown-item" href="/show-history">Show History</a>
+                    {%endif%}
                     <a class="dropdown-item" href="/change">Change Password</a>
                     <a class="dropdown-item" href="{{ url_for('security.logout') }}">Log out</a>
                 </div>

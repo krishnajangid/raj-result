@@ -8,6 +8,8 @@ from flask_admin.contrib.sqla import ModelView
 from flask_security import (Security, SQLAlchemyUserDatastore, current_user, login_required,
                             roles_required, roles_accepted)
 from models import (User, Role)
+from utils_constant import ActionTypeEnum, StatusTypeEnum
+from utils_response import RestResponse
 from webapp import app, db
 
 user_data_store = SQLAlchemyUserDatastore(db, User, Role)
@@ -82,10 +84,40 @@ class UsersView(ModelView):
     page_size = 15
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<h1>404</h1><p>The resource could not be found.</p>", 404
+
+
+@app.route("/raj-result/add/", methods=[ActionTypeEnum.POST.value])
+def add_data():
+    return RestResponse.get(StatusTypeEnum.SUCCESS.value)
+
+
+@app.route("/raj-result/update/", methods=[ActionTypeEnum.POST.value])
+def update_data():
+    return RestResponse.get(StatusTypeEnum.SUCCESS.value)
+
+
+@app.route("/raj-result/delete/", methods=[ActionTypeEnum.POST.value])
+def delete_data():
+    return RestResponse.get(StatusTypeEnum.SUCCESS.value)
+
+
+@app.route("/raj-result/get-one/", methods=[ActionTypeEnum.POST.value])
+def get_one():
+    return RestResponse.get(StatusTypeEnum.SUCCESS.value)
+
+
+@app.route("/raj-result/get-all/", methods=[ActionTypeEnum.POST.value])
+def get_all():
+    return RestResponse.get(StatusTypeEnum.SUCCESS.value)
+
+
 # Create admin
 admin = admin.Admin(
     app,
-    name='Raj Result Dashboard',
+    name='Raj Result',
     template_mode='bootstrap3',
     index_view=HomeView()
 )
