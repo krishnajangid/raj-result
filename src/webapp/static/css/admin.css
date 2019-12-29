@@ -8,6 +8,10 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 3px 11px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
+.has-error {
+    color: #a94442;
+}
+
 .bold{font-weight: 900;}
 .fa-minus-circle{color:red;}
 .fa-check-circle{color:green;}
@@ -34,17 +38,21 @@ form{ margin-top:30px;}
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
+    background: #f5f7f6;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 
 #page-content-wrapper {
     width: 100%;
-    position: absolute;
     padding: 15px;
+    position: relative;
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
     margin-right: -250px;
 }
 
@@ -97,30 +105,11 @@ form{ margin-top:30px;}
     color: #fff;
 }
 @media (min-width: 400px) and (max-width: 800px) {
-    #wrapper {padding-left: 0px ! important;}
-    #menu-toggle{display:none;}
 
-    #sidebar-wrapper {
-        width: 0px ! important;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
 }
 
 @media (min-width: 800px) and (max-width: 5000px) {
-    #wrapper.toggled #sidebar-wrapper {width: 0;}
-    #menu-toggle{display:block;}
-    #page-content-wrapper {
-        padding: 20px;
-        position: relative;
-    }
 
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
 }
 
 /* Bootstrap 4 */
