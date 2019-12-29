@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
+import json
 
 import flask_admin as admin
 from flask import redirect, url_for, request, abort
@@ -60,9 +61,11 @@ class MyModelView(ModelView):
             else:
                 return redirect(url_for('security.login', next=request.url))
 
+
 @app.route('/')
 def index():
     return redirect("/admin")
+
 
 class HomeView(AdminIndexView):
 
@@ -78,32 +81,36 @@ class UsersView(ModelView):
     def __init__(self, session, **kwargs):
         super(UsersView, self).__init__(User, session, **kwargs)
 
-    column_list = ('email', 'active', 'confirmed_at', 'roles', 'average', '')
+    column_list = ('email', 'active', 'confirmed_at', 'roles', '')
     column_searchable_list = ('email',)
 
     can_view_details = True
-    column_display_actions = False
+    column_display_actions = True
     can_delete = False
     page_size = 15
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return "<h1>404</h1><p>The resource could not be found.</p>", 404
+    return "<h1>404</h1><p>The page could not be found.</p>", 404
 
 
 @app.route("/raj-result/add/", methods=[ActionTypeEnum.POST.value])
 def add_data():
+    request_data = request.json
+    print(request_data.get('Roll Number'))
     return RestResponse.get(StatusTypeEnum.SUCCESS.value)
 
 
 @app.route("/raj-result/update/", methods=[ActionTypeEnum.POST.value])
 def update_data():
+    request_data = request.json
     return RestResponse.get(StatusTypeEnum.SUCCESS.value)
 
 
 @app.route("/raj-result/delete/", methods=[ActionTypeEnum.POST.value])
 def delete_data():
+    request_data = request.json
     return RestResponse.get(StatusTypeEnum.SUCCESS.value)
 
 

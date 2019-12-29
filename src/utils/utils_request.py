@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 class MakeRequest(object):
-    def __init__(self, base_url=None):
+    def __init__(self, base_url=None, is_josn=False):
         self.__user_agent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+        self.__is_josn = is_josn
         self.__time_out = 20
         self.__retry = True
         self.__retry_count = 3
@@ -90,7 +91,10 @@ class MakeRequest(object):
 
     def post(self):
         try:
-            response = self.session.post(url=self.base_url, data=self.post_data, timeout=self.__time_out)
+            if self.__is_josn:
+                response = self.session.post(url=self.base_url, json=self.post_data, timeout=self.__time_out)
+            else:
+                response = self.session.post(url=self.base_url, data=self.post_data, timeout=self.__time_out)
             if response.status_code != 200:
                 msg = f"Failure response status code {response.status_code}"
                 raise ResponseCodeException(msg)

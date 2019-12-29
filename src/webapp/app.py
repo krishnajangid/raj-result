@@ -20,4 +20,4 @@ from webapp import app, db
 
 if __name__ == '__main__':
     db.init_app(app)
-    app.run()
+    app.run(port=9898)
