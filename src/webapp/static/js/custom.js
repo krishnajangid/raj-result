@@ -30,3 +30,10 @@ $("#menu-toggle").click(function () {
 
 });
 
+$('.actions-nav').addClass('pb-2');
+var pathname = window.location.pathname;
+if(pathname.startsWith("/admin")){
+    $('.pull-right>.navbar-brand').show()
+}else{
+    $('.pull-right>.navbar-brand').hide();
+}

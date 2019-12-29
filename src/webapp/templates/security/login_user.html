@@ -1,39 +1,34 @@
-{% extends 'master.html' %}
+{% extends 'admin/master_base.html' %}
 {% from "security/_macros.html" import render_field, render_field_with_errors, render_checkbox_field %}
 
 {% block page_body %}
 {{ super() }}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-12 mt-5">
-            <div class="row">
-                <div class="col-md-6 mx-auto">
-                    <!-- form card login -->
-                    <div class="z-depth1 rounded-0">
-                        <div class="card-header bg-color">
-                            <h3 class="mb-0">Login</h3>
+<div class="container">
+    <div class="row" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="col-md-6 mx-auto">
+            <!-- form login -->
+            <div class="z-depth-1-5 mt-5">
+                <div class=" bg-color p-1">
+                    <h3 class="m-3">Login</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+                        {{ login_user_form.hidden_tag() }}
+                        <div class="">
+                            {{ render_field_with_errors(login_user_form.email) }}
                         </div>
-                        <div class="card-body">
-                            <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
-                                {{ login_user_form.hidden_tag() }}
-                                <div class="">
-                                    {{ render_field_with_errors(login_user_form.email) }}
-                                </div>
-                                <div class="">
-                                   {{ render_field_with_errors(login_user_form.password) }}
-                                </div>
-                                {{ render_checkbox_field(login_user_form.remember) }}
-                                <div class="text-right">
-                                    {{ render_field(login_user_form.next) }}
-                                    {{ render_field(login_user_form.submit, class="btn btn-success") }}
-                                </div>
-                            </form>
+                        <div class="">
+                            {{ render_field_with_errors(login_user_form.password) }}
                         </div>
-                    </div>
+                        {{ render_checkbox_field(login_user_form.remember) }}
+                        <div class="text-right">
+                            {{ render_field(login_user_form.next) }}
+                            {{ render_field(login_user_form.submit, class="btn bg-color") }}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock page_body %}

@@ -1,68 +1,7 @@
-{% import 'admin/layout.html' as layout with context %}
-{% import 'admin/static.html' as admin_static with context %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Raj Result Admin</title>
-
-    {% block head_meta %}
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Flask">
-    <link rel="icon" href="{{url_for('static',filename='img/favicon.ico')}}"/>
-    {% endblock head_meta %}
-
-    {% block head_css %}
-    <!-- Bootstrap 3.3.6 -->
-    <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet"/>
-    <link href="{{url_for('static',filename='css/admin.css')}}" rel="stylesheet"/>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <!-- Font Awesome -->
-    <link href="{{ admin_static.url(filename='admin/css/bootstrap3/admin.css', v='1.1.1') }}" rel="stylesheet">
-    <link href="{{url_for('static',filename='css/bootstrap-select.min.css')}}" rel="stylesheet"/>
-    <link href="{{url_for('static',filename='css/dataTables.bootstrap.min.css')}}" rel="stylesheet"/>
-    {% if admin_view.extra_css %}
-        {% for css_url in admin_view.extra_css %}
-            <link href="{{ css_url }}" rel="stylesheet">
-        {% endfor %}
-    {% endif %}
-
-    {% endblock head_css%}
-    {% block head %}
-    {% endblock head%}
-    {% block head_tail %}
-    {% endblock head_tail%}
-</head>
-
-<body>
-{% block page_body %}
-<nav class="container-fluid navbar navbar-fixed-top z-depth" role="navigation" style="background-color: #fff;">
-    <a href="#menu-toggle" id="menu-toggle" class="navbar-brand">
-        <span class="fa fa-bars"></span>
-    </a>
-    <a href="/admin/" class="navbar-brand">
-        <b>{{ admin_view.admin.name }}</b>
-    </a>
-
-    {% if current_user.is_authenticated %}
-    <div class="navbar-text btn-group pull-right">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-            <i class="glyphicon glyphicon-user fa fa-user"></i>
-            {% if current_user.first_name -%}
-                {{ current_user.first_name }}
-            {% else -%}
-                {{ current_user.email }}
-            {%- endif %}<span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="/change">Change Password</a></li>
-            <li><a href="{{ url_for('security.logout') }}">Log out</a></li>
-        </ul>
-    </div>
-    {% endif %}
-</nav>
-<div id="wrapper" style="padding-left:250px">
+{% extends 'admin/master_base.html' %}
+{% block slide_body %}
+<div>
+    <div id="wrapper" style="padding-left:250px">
     <!-- Sidebar -->
     <div id="sidebar-wrapper" style="width:250px;">
         <ul class="sidebar-nav mt-5 pt-5" style="top:-6px;">
@@ -90,6 +29,7 @@
                         <div class="alert alert-danger">Duplicate entry..</div>
                     {% elif 'ForeignKeyViolation' in messages[0] %}
                         <div class="alert alert-danger">Foreign Key Constraint...!</div>
+                    {% elif 'Please log in to access this page' in messages[0] %}
                     {% else %}
                         <div class="alert alert-danger">{{ messages[0] }} </div>
                     {% endif%}
@@ -107,39 +47,11 @@
     </div>
 
 </div>
-<div class="alert alert-success" id="display_message">
-    Data Saved Successfully..!
 </div>
-{% endblock page_body%}
 
-{% block tail_js %}<!-- jQuery 2.2.3 -->
-<script src="{{url_for('static',filename='plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/custom.js')}}"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
-<script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"
-        type="text/javascript"></script>
-<script src="{{url_for('static',filename='js/chart.js')}}"></script>
-{% if admin_view.extra_js %}
-{% for js_url in admin_view.extra_js %}
-<script src="{{ js_url }}" type="text/javascript"></script>
-{% endfor %}
-{% endif %}
-<!-- daterangepicker -->
-<script src="{{url_for('static',filename='js/moment.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- datepicker -->
-<script src="{{url_for('static',filename='js/bootstrap-datepicker.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/bootstrap-select.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/jquery.dataTables.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/jquery.tabledit.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/table2csv.min.js')}}"></script>
-{% if admin_view.name=="Home" %}
-{% endif %}
-{% endblock tail_js%}
-
+{% endblock slide_body %}
 {% block tail %}
+<script>
+</script>
+
 {% endblock tail %}
-</body>
-</html>

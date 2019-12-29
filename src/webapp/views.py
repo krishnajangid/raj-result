@@ -60,6 +60,9 @@ class MyModelView(ModelView):
             else:
                 return redirect(url_for('security.login', next=request.url))
 
+@app.route('/')
+def index():
+    return redirect("/admin")
 
 class HomeView(AdminIndexView):
 
