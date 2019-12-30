@@ -33,9 +33,11 @@ class ProcessResult(object):
         self.__raj_bord_obj = RajResult(base_url)
         self.__request = MakeRequest('http://localhost:9898/raj-result/add/', is_josn=True)
 
-    def process(self, reg_no):
+    def process(self, reg_no, branch):
         self.__raj_bord_obj.process(reg_no)
         result_dict = self.__raj_bord_obj.result_dict
+        result_dict['branch'] = branch
+        result_dict['year'] = 2019
         self.save_result(result_dict)
         print(json.dumps(result_dict, indent=4))
 
@@ -44,16 +46,15 @@ class ProcessResult(object):
         self.__request.post()
 
 
-extractor_base = ProcessResult(base_url=RajUrl.RAJ_BOARD.value)
+extractor_base = ProcessResult(base_url=RajUrl.SSLC.value)
 for reg_no in [1429382]:
-    extractor_base.process(reg_no)
+    extractor_base.process(reg_no, RajUrl.SSLC.name)
 
 
-
-extractor_base = ProcessResult(base_url=RajUrl.COM_BOARD.value)
+extractor_base = ProcessResult(base_url=RajUrl.COMMERCE.value)
 for reg_no in [2800001]:
-    extractor_base.process(reg_no)
+    extractor_base.process(reg_no, RajUrl.COMMERCE.name)
 
-extractor_base = ProcessResult(base_url=RajUrl.SCI_BOARD.value)
+extractor_base = ProcessResult(base_url=RajUrl.SCIENCE.value)
 for reg_no in [2528939]:
-    extractor_base.process(reg_no)
+    extractor_base.process(reg_no, RajUrl.SCIENCE.name)

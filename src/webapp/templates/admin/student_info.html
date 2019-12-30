@@ -1,0 +1,97 @@
+{% extends 'admin/base.html' %}
+{% block page_data %}
+
+<div class="z-depth-1-5 p-4">
+    <div style="margin-top:20px">
+        <h4>Student information</h4>
+        <table class="table table-sm table-hover  table-bordered">
+            <tbody>
+            <tr>
+                <td class="bold">Register Number</td>
+                <td>{{ student_result_dict.reg_num }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Name</td>
+                <td>{{ student_result_dict.name }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Father's Name</td>
+                <td>{{ student_result_dict.father_name }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Mother's Name</td>
+                <td>{{ student_result_dict.mother_name }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Branch</td>
+                <td>{{ student_result_dict.branch_name }}</td>
+            </tr>
+            <tr>
+                <td class="bold">School</td>
+                <td>({{ student_result_dict.code }}) {{ student_result_dict.school_name }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Created</td>
+                <td>{{ student_result_dict.created }}</td>
+            </tr>
+            <tr>
+                <td class="bold">Updated</td>
+                <td>{{ student_result_dict.updated }}</td>
+            </tr>
+            <tr>
+                <td class="bold">View</td>
+                <td>{{ student_result_dict.views }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <h4>Marks information</h4>
+        <table class="table table-sm  table-hover  table-bordered">
+            <thead>
+            <tr>
+                <th>Subject Name</th>
+                <th>TH</th>
+                <th>SS</th>
+                <th>TH+SS</th>
+                {% if student_result_dict.branch_name != 'SSLC'%}
+                <th>PR</th>
+                {%endif%}
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for marks_result_dict in marks_result_dict_list %}
+            <tr>
+                <td>{{marks_result_dict.name}}</td>
+                <td>{{marks_result_dict.theory}}</td>
+                <td>{{marks_result_dict.sessional}}</td>
+                <td>{{marks_result_dict.th_ss}}</td>
+                {% if student_result_dict.branch_name != 'SSLC'%}
+                <td>{{marks_result_dict.practical}}</td>
+                {%endif%}
+                <td>{{marks_result_dict.total}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                {% set colspan = '4' %}
+                {% if student_result_dict.branch_name != 'SSLC'%}
+                    {% set colspan = '5' %}
+                {%endif%}
+                <td class="bold" colspan="{{colspan}}">Total</td>
+                <td class="bold">{{score | sum }}</td>
+            </tr>
+            <tr>
+                <td class="bold" align="center" colspan="6">{{ score | sum / score | count }}%</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock page_data%}
+{% block tail %}
+
+<script type="text/javascript">
+
+</script>
+{% endblock tail %}

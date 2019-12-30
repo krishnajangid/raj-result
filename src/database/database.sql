@@ -33,7 +33,7 @@ CREATE TABLE "roles_users" (
 CREATE TABLE branch(
   "id" SERIAL PRIMARY  KEY ,
   "name" VARCHAR(50) NOT NULL,
-  "cls" VARCHAR(20) NOT NULL,
+  "cls" VARCHAR(20) NULL,
   "created" TIMESTAMP  DEFAULT NOW()
 
 );
@@ -88,14 +88,10 @@ CREATE TABLE marks(
   "sessional" INTEGER,
   "th_ss" INTEGER,
   "practical" INTEGER,
+  "total" VARCHAR(5),
 
   CONSTRAINT "marks_student_id_fkey" FOREIGN KEY ("student_id") REFERENCES student("id"),
   CONSTRAINT "marks_subject_id_fkey" FOREIGN KEY ("subject_id") REFERENCES subject("id")
 );
-
-INSERT INTO role (name) VALUES ('superuser');
-INSERT INTO users (email, password, active) VALUES ('admin', 'admin', true);
-
-INSERT INTO roles_users (user_id, role_id) VALUES (1, 1);
 
 COMMIT;

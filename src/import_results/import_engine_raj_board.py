@@ -43,9 +43,9 @@ class RajResult(object):
                     result_dict = {
                         'sub_name': result_list[0],
                         'theory': result_list[1],
-                        'sessional': result_list[3],
-                        'th_ss': result_list[4],
-                        'practical': result_list[5],
+                        'sessional': result_list[2],
+                        'th_ss': result_list[3],
+                        'practical': result_list[4],
                         'total': result_list[5],
                     }
                     student_dict['marks'].append(result_dict)

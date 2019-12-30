@@ -75,7 +75,7 @@ class Student(db.Model):
     name = Column(String(50), nullable=False)
     father_name = Column(String(50), nullable=False)
     mother_name = Column(String(50), nullable=False)
-    views = Column(Integer)
+    views = Column(Integer, default=0)
     last_views = Column(DateTime)
     year = Column(String(5))
     created = Column(DateTime)
@@ -102,12 +102,15 @@ class Marks(db.Model):
     __tablename__ = 'marks'
 
     id = Column(Integer, primary_key=True)
-    school_id = Column(Integer, ForeignKey(f'school.id'), nullable=False)
+    student_id = Column(Integer, ForeignKey(f'student.id'), nullable=False)
     subject_id = Column(Integer, ForeignKey(f'subject.id'), nullable=False)
     theory = Column(Integer, nullable=True)
     sessional = Column(Integer, nullable=True)
     th_ss = Column(Integer, nullable=True)
     practical = Column(Integer, nullable=True)
+    total = Column(String, nullable=False)
+    subject_obj = relationship(Subject, backref='subject')
+
 
     def __str__(self):
         return self.name
