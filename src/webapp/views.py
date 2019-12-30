@@ -161,7 +161,37 @@ class MarksView(ModelView):
         'subject_obj.name': 'Subject Name',
     }
 
-    can_view_details = True
+    column_display_actions = False
+    can_delete = False
+    can_create = False
+    can_edit = False
+    page_size = 13
+
+
+class SubjectView(ModelView):
+
+    def __init__(self, session, **kwargs):
+        super(SubjectView, self).__init__(Subject, session, **kwargs)
+
+    column_list = ('name',)
+    column_sortable_list = column_filters = column_list
+
+    column_display_actions = False
+    can_delete = False
+    can_create = False
+    can_edit = False
+    page_size = 13
+
+
+class SchoolView(ModelView):
+
+    def __init__(self, session, **kwargs):
+        super(SchoolView, self).__init__(School, session, **kwargs)
+
+    column_list = ('code', 'name')
+    column_searchable_list = column_list
+    column_sortable_list = column_filters = column_list
+
     column_display_actions = False
     can_delete = False
     can_create = False
@@ -276,3 +306,5 @@ admin = admin.Admin(
 admin.add_view(UsersView(db.session))
 admin.add_view(StudentView(db.session))
 admin.add_view(MarksView(db.session))
+admin.add_view(SubjectView(db.session))
+admin.add_view(SchoolView(db.session))
