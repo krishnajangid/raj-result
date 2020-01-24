@@ -82,7 +82,7 @@
                 <td class="bold">{{score | sum }}</td>
             </tr>
             <tr>
-                <td class="bold" align="center" colspan="6">{{ score | sum / score | count }}%</td>
+                <td class="bold" align="center" colspan="6">{{ '%0.2f' % (score | sum / score | count) | float}}%</td>
             </tr>
             </tbody>
         </table>

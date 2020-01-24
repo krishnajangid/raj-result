@@ -34,6 +34,10 @@ class User(db.Model, UserMixin):
     password = Column(String(255), nullable=False)
     active = Column(Boolean())
     confirmed_at = Column(DateTime())
+    current_login_at = Column(DateTime())
+    last_login_ip = Column(String)
+    current_login_ip = Column(String)
+    login_count = Column(Integer)
 
     roles = relationship(Role, secondary=roles_users, backref=db.backref(__tablename__, lazy='dynamic'))
 

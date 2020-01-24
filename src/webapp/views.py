@@ -217,16 +217,16 @@ def add_data():
     year = request_data_dict.get("year")
 
     student_id = get_create_student(name, reg_num, father_name, mother_name, school_id, branch_id, year)
+    if student_id:
+        for data_dict in request_data_dict['marks']:
+            subject_id = get_create_subject(data_dict['sub_name'])
+            theory = data_dict.get('theory')
+            sessional = data_dict.get('sessional')
+            th_ss = data_dict.get('th_ss')
+            practical = data_dict.get('practical') or None
+            total = data_dict.get('total')
 
-    for data_dict in request_data_dict['marks']:
-        subject_id = get_create_subject(data_dict['sub_name'])
-        theory = data_dict.get('theory')
-        sessional = data_dict.get('sessional')
-        th_ss = data_dict.get('th_ss')
-        practical = data_dict.get('practical') or None
-        total = data_dict.get('total')
-
-        create_marks(student_id, subject_id, theory, sessional, th_ss, practical, total)
+            create_marks(student_id, subject_id, theory, sessional, th_ss, practical, total)
 
     return RestResponse.get(StatusTypeEnum.SUCCESS.value)
 
@@ -255,14 +255,16 @@ def get_all():
 
 def get_create_student(name, reg_num, father_name, mother_name, school_id, branch_id, year):
     student_obj = db.session.query(Student).filter(Student.reg_num == reg_num, Student.school_id == school_id).first()
-    if not student_obj:
+    if student_obj:
+        return None
+    else:
         student_obj = Student(name=name, reg_num=reg_num, father_name=father_name, mother_name=mother_name,
                               school_id=school_id, branch_id=branch_id, year=year,
                               created=datetime.now(), updated=datetime.now())
         db.session.add(student_obj)
         db.session.commit()
 
-    return student_obj.id
+        return student_obj.id
 
 
 def get_create_school(school_name):
